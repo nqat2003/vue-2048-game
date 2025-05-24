@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed, reactive } from 'vue';
 // Import VantaJS fog effect
 import FOG from 'vanta/dist/vanta.fog.min';
 import * as THREE from 'three';
@@ -473,11 +473,16 @@ h1 {
   border-radius: 6px;
   padding: 15px;
   position: relative;
+  width: calc(100% - 30px); /* Account for padding */
+  aspect-ratio: 1 / 1; /* Keep the board square */
+  max-width: 450px; /* Match roughly with the cell sizes */
+  margin: 0 auto;
 }
 
 .row {
   display: flex;
   margin-bottom: 15px;
+  height: calc(25% - 11.25px); /* 25% height minus part of the gap */
 }
 
 .row:last-child {
@@ -485,8 +490,8 @@ h1 {
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
+  width: calc(25% - 11.25px); /* 25% width minus part of the gap */
+  height: 100%;
   background-color: #eee4da59;
   border-radius: 6px;
   margin-right: 15px;
@@ -543,19 +548,20 @@ h1 {
 
 /* Responsive adjustments */
 @media (max-width: 500px) {
-  .cell {
-    width: 65px;
-    height: 65px;
-    font-size: 24px;
-    margin-right: 10px;
-  }
-
   .game-board {
     padding: 10px;
+    width: calc(100% - 20px); /* Account for the smaller padding */
   }
 
   .row {
     margin-bottom: 10px;
+    height: calc(25% - 7.5px); /* Adjust for smaller margins */
+  }
+
+  .cell {
+    width: calc(25% - 7.5px); /* Adjust for smaller margins */
+    margin-right: 10px;
+    font-size: 24px;
   }
 
   h1 {
