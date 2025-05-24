@@ -203,6 +203,8 @@ const handleKeyDown = (event) => {
 const handleTouchStart = (event) => {
   touchStartX.value = event.touches[0].clientX;
   touchStartY.value = event.touches[0].clientY;
+  // Prevent default to avoid scrolling when starting touch inside game board
+  event.preventDefault();
 };
 
 const handleTouchMove = (event) => {
@@ -345,7 +347,12 @@ onUnmounted(() => {
         <button @click="initBoard" class="new-game-btn">New Game</button>
       </div>
 
-      <div class="game-board">
+      <div
+        class="game-board"
+        @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove"
+        @touchend="handleTouchEnd"
+      >
         <div v-for="(row, rowIndex) in board" :key="`row-${rowIndex}`" class="row">
           <div
             v-for="(cell, colIndex) in row"
@@ -384,10 +391,11 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: -1;
-  overflow: auto;
+  overflow: hidden;
+  background-color: #FFF5E0; /* Match the base color of VantaJS */
 }
 
 .game-container {
@@ -564,9 +572,4 @@ h1 {
   }
 }
 </style>
-
-
-
-
-
 
